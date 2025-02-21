@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo Site</title>
+    <style>
+      body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(
+          45deg,
+          #ff9a9e,
+          #fad0c4,
+          #fbc2eb,
+          #a6c1ee,
+          #f6d365
+        );
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease-in-out infinite;
+        overflow: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          45deg,
+          #ff9a9e,
+          #fad0c4,
+          #fbc2eb,
+          #a6c1ee,
+          #f6d365
+        );
+        background-size: 400% 400%;
+        opacity: 0;
+        transition: opacity 3s ease-in-out;
+        z-index: -1;
+      }
+
+      @keyframes gradientBG {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .frosted-glass {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(20px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-family: -apple-system, system-ui, BlinkMacSystemFont, "SF Pro Text",
+          "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        text-align: center;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        letter-spacing: -0.015em;
+      }
+
+      h1 {
+        font-size: 3rem;
+        margin-bottom: 10px;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+      }
+
+      p {
+        font-size: 1.5rem;
+        opacity: 0.8;
+        font-weight: 400;
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.4;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="frosted-glass">
+      <div>
+        <h1>Hi im Amal</h1>
+        <p>i suck at everything.</p>
+      </div>
+    </div>
+    <script>
+      const body = document.body;
+      const colors = [
+        ["#ff9a9e", "#fad0c4", "#fbc2eb", "#a6c1ee", "#f6d365"],
+        ["#a1c4fd", "#c2e9fb", "#fbc2eb", "#a6c1ee", "#f6d365"],
+        ["#84fab0", "#8fd3f4", "#fbc2eb", "#a6c1ee", "#f6d365"],
+        ["#ffecd2", "#fcb69f", "#fbc2eb", "#a6c1ee", "#f6d365"],
+      ];
+      let currentIndex = 0;
+
+      function changeBackground() {
+        const pseudo = document.createElement("style");
+        const nextIndex = (currentIndex + 1) % colors.length;
+
+        pseudo.innerHTML = `
+        body::before {
+          background: linear-gradient(45deg, ${colors[nextIndex].join(", ")});
+          background-size: 400% 400%;
+          opacity: 1;
+        }
+      `;
+
+        document.head.appendChild(pseudo);
+
+        setTimeout(() => {
+          body.style.background = `linear-gradient(45deg, ${colors[nextIndex].join(", ")})`;
+          body.style.backgroundSize = "400% 400%";
+          pseudo.innerHTML = `
+          body::before {
+            opacity: 0;
+          }
+        `;
+          currentIndex = nextIndex;
+        }, 3000);
+      }
+
+      setInterval(changeBackground, 10000);
+    </script>
+  </body>
+</html>
